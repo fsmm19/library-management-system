@@ -85,6 +85,7 @@ backend/*.env
 **/prisma/migrations/
 backend/prisma/dev.db
 backend/prisma/dev.db-journal
+backend/src/generated/prisma/
 
 # Temporary files
 **/tmp/
