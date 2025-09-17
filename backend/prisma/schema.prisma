@@ -1,9 +1,80 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid()) @db.Uuid
+  username     String?       @unique
+  email        String        @unique
+  passwordHash String
+  firstName    String
+  lastName     String
+  middleName   String?
+  phoneNumbers PhoneNumber[]
+  addresses    Address[]
+  createdAt    DateTime      @default(now())
+  updateAt     DateTime      @updatedAt
+  userType     UserType
+  partner      Partner?
+  librarian    Librarian?
+}
+
+model Partner {
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @unique @db.Uuid
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Librarian {
+  userId String @unique @db.Uuid
+  User   User   @relation(fields: [userId], references: [id])
+}
+
+model PhoneNumber {
+  id         String    @id @default(uuid()) @db.Uuid
+  userId     String    @db.Uuid
+  user       User      @relation(fields: [userId], references: [id])
+  type       PhoneType
+  number     String // E.164 format -> +[country code][number]
+  isVerified Boolean   @default(false)
+  isPrimary  Boolean   @default(false)
+}
+
+model Address {
+  id          String      @id @default(uuid()) @db.Uuid
+  userId      String      @db.Uuid
+  user        User        @relation(fields: [userId], references: [id])
+  type        AddressType @default(PRIMARY)
+  streetLine1 String
+  streetLine2 String?
+  city        String
+  state       String?
+  postalCode  String?
+  country     String
+  isPrimary   Boolean     @default(false)
+}
+
+enum UserType {
+  PARTNER
+  LIBRARIAN
+}
+
+enum PhoneType {
+  MOBILE
+  HOME
+  WORK
+  OTHER
+}
+
+enum AddressType {
+  PRIMARY
+  BILLING
+  SHIPPING
 }
