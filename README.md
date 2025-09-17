@@ -51,31 +51,26 @@ pnpm install
 pnpm run dev
 ```
 
-### 4. Base de datos
+### 4. Levantar base de datos con Docker
 
-La base de datos se ejecuta en PostgreSQL usando un contenedor Docker.
+Asegúrarse de tener [Docker](https://docs.docker.com/get-docker/) y [Docker Compose](https://docs.docker.com/compose/) instalados.
 
-#### Levantar el contenedor
+#### Comando principal
+
+Desde el directorio `backend/`, ejecutar:
 
 ```bash
-docker run --name library-db \
-  -e POSTGRES_USER=postgres \
-  -e POSTGRES_PASSWORD=admin \
-  -e POSTGRES_DB=library_db \
-  -p 5432:5432 \
-  -d postgres
+docker-compose up -d
 ```
-- Usuario: postgres
-- Contraseña: admin
-- Base de datos: library-db
-- Puerto: 5432
 
 #### Variables de entorno
 
-En el archivo `backend/.env` define la conexión:
+En el archivo `backend/.env` definir las siguientes variables:
 
 ```env
-DATABASE_URL="postgresql://postgres:admin@localhost:5432/library_db?schema=public"
+POSTGRES_USER=your_username
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=library_db
 ```
 
 ### 5. Despliegue
