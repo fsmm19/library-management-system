@@ -4,6 +4,7 @@ import {
   IsEnum,
   IsOptional,
   IsString,
+  IsStrongPassword,
   Matches,
   MaxLength,
   MinLength,
@@ -34,12 +35,28 @@ export class CreateUserDto {
   readonly email: string;
 
   @IsString()
-  readonly passwordHash: string;
+  @IsStrongPassword()
+  @Matches(/^\S+$/, {
+    message: 'password cannot contain spaces',
+  })
+  readonly password: string;
 
   @IsString()
+  @MinLength(1)
+  @MaxLength(50)
+  @Matches(/^[A-Za-zÀ-ÿ' -]+$/, {
+    message:
+      'firstName can only contain letters, one space, hyphens and apostrophes',
+  })
   readonly firstName: string;
 
   @IsString()
+  @MinLength(1)
+  @MaxLength(50)
+  @Matches(/^[A-Za-zÀ-ÿ' -]+$/, {
+    message:
+      'firstName can only contain letters, one space, hyphens and apostrophes',
+  })
   readonly lastName: string;
 
   @IsString()
