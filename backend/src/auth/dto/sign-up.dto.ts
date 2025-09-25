@@ -1,19 +1,13 @@
 import {
-  IsArray,
   IsEmail,
   IsOptional,
   IsString,
   Matches,
   MaxLength,
   MinLength,
-  ValidateNested,
 } from 'class-validator';
-import { Type } from 'class-transformer';
-import { UserType } from 'src/generated/prisma/enums';
-import { PhoneNumberDto } from './phone-number.dto';
-import { AddressDto } from './address.dto';
 
-export class CreateUserDto {
+export class SignUpDto {
   @IsString()
   @MinLength(4)
   @MaxLength(30)
@@ -33,7 +27,7 @@ export class CreateUserDto {
   readonly email: string;
 
   @IsString()
-  readonly passwordHash: string;
+  readonly password: string;
 
   @IsString()
   readonly firstName: string;
@@ -44,16 +38,4 @@ export class CreateUserDto {
   @IsString()
   @IsOptional()
   readonly middleName?: string;
-
-  @IsArray()
-  @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => PhoneNumberDto)
-  readonly phoneNumbers: PhoneNumberDto[];
-
-  @IsArray()
-  @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => AddressDto)
-  readonly addresses: AddressDto[];
 }
