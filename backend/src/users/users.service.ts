@@ -28,12 +28,7 @@ export class UsersService {
         data: {
           ...userData,
           passwordHash: hash,
-          addresses: {
-            create: addresses,
-          },
-          phoneNumbers: {
-            create: phoneNumbers,
-          },
+          userType: 'PARTNER',
         },
       });
     } catch (error) {
@@ -60,22 +55,10 @@ export class UsersService {
     });
   }
 
-  async findOneByEmail(email: string) {
-    return this.prismaService.user.findUnique({
-      where: { email },
-      include: {
-        phoneNumbers: true,
-        addresses: true,
-      },
-    });
-  }
-
-  async findOneByUsername(username: string) {
-    return this.prismaService.user.findUnique({
-      where: { username },
-      include: {
-        phoneNumbers: true,
-        addresses: true,
+  async findOneByIdentifier(identifier: string) {
+    return this.prismaService.user.findFirst({
+      where: {
+        OR: [{ username: identifier }, { email: identifier }],
       },
     });
   }
