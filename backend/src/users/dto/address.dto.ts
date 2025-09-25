@@ -1,4 +1,10 @@
-import { IsBoolean, IsEnum, IsPostalCode, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsEnum,
+  IsOptional,
+  IsPostalCode,
+  IsString,
+} from 'class-validator';
 import { AddressType } from 'src/generated/prisma/enums';
 
 export class AddressDto {
@@ -9,15 +15,18 @@ export class AddressDto {
   readonly streetLine1: string;
 
   @IsString()
+  @IsOptional()
   readonly streetLine2?: string;
 
   @IsString()
   readonly city: string;
 
   @IsString()
+  @IsOptional()
   readonly state?: string;
 
-  @IsPostalCode()
+  @IsPostalCode('any')
+  @IsOptional()
   readonly postalCode?: string;
 
   @IsString()
