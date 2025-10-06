@@ -1,0 +1,3 @@
+# Sistema de Gestión de Biblioteca
+
+El sistema permitirá a la biblioteca gestionar de forma eficiente el inventario de libros, los préstamos, las devoluciones, las multas, la administración de socios y los procesos de catalogación. Está dirigido principalmente a bibliotecarios y socios de la biblioteca. Su propósito es facilitar y optimizar las operaciones principales de una biblioteca, reemplazando los procesos manuales por una solución digital más ágil y organizada.
